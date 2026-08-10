@@ -1,4 +1,4 @@
-p# Commit-count leaderboard proof of concept
+# Commit-count leaderboard proof of concept
 
 This repository is a research proof of concept showing why a leaderboard based
 only on raw Git commit totals is easy to distort. Its purpose is to demonstrate

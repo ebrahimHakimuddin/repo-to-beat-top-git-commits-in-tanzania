@@ -3,36 +3,25 @@
 from __future__ import annotations
 
 import argparse
-import datetime
 import subprocess
 import threading
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
-
-LOG_FILE = Path("poc_log.txt")
 
 # git mutates shared repo state (the index, HEAD, .git/index.lock), so the
-# actual add+commit must stay serialized even though the worker threads run
+# actual commit must stay serialized even though the worker threads run
 # concurrently. This does not make the git calls themselves faster.
 GIT_LOCK = threading.Lock()
-
-
-def append_entry(message: str, index: int) -> None:
-    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    with LOG_FILE.open("a", encoding="utf-8") as handle:
-        handle.write(f"{timestamp} {message} ({index})\n")
 
 
 def commit(message: str) -> None:
     with GIT_LOCK:
         subprocess.run(
-            ["git", "commit", "-a", "--no-verify", "--no-gpg-sign", "-m", message],
+            ["git", "commit", "--allow-empty", "--no-verify", "--no-gpg-sign", "-m", message],
             check=True,
         )
 
 
 def do_one(message: str, index: int, total: int) -> None:
-    append_entry(message, index)
     commit(f"{message} {index}")
     print(f"Committed {index}/{total}: {message!r}")
 
