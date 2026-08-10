@@ -16,29 +16,6 @@ automated or trivial events can therefore move an account above people doing
 substantive work. The proof of concept compares that raw ranking with a simple
 quality-aware score that caps repetitive synthetic activity.
 
-## Run it
-
-Python 3.10 or newer is recommended. There are no third-party dependencies.
-
-```bash
-python3 poc.py
-```
-
-Try a different number of simulated events:
-
-```bash
-python3 poc.py --synthetic-events 45000
-```
-
-The number controls only an integer in the simulation; it never creates that
-many files or Git commits.
-
-Run the tests with:
-
-```bash
-python3 -m unittest -v
-```
-
 ## Responsible interpretation
 
 This deliberately simplified model is not an analysis of any specific website
